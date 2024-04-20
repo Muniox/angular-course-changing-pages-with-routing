@@ -1,4 +1,5 @@
 import {
+  CanActivateChildFn,
   CanActivateFn,
   GuardResult,
   MaybeAsync,
@@ -8,6 +9,22 @@ import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 
 export const authGuard: CanActivateFn = (
+  route,
+  state
+): MaybeAsync<GuardResult> => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.isAuthenticated().then(async (authenticated) => {
+    if (authenticated) {
+      return true;
+    } else {
+      await router.navigate(['/']);
+    }
+  });
+};
+
+export const authGuardChild: CanActivateChildFn = (
   route,
   state
 ): MaybeAsync<GuardResult> => {
