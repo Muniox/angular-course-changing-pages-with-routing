@@ -31,11 +31,11 @@ export const authGuardChild: CanActivateChildFn = (
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isAuthenticated().then(async (authenticated) => {
+  return authService.isAuthenticated().then((authenticated) => {
     if (authenticated) {
       return true;
     } else {
-      await router.navigate(['/']);
+      void router.navigate(['/']);
     }
   });
 };
