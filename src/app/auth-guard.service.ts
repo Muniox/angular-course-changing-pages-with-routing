@@ -2,11 +2,12 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   GuardResult,
-  MaybeAsync, Router,
-  RouterStateSnapshot
-} from "@angular/router";
-import {Injectable} from "@angular/core";
-import {AuthService} from "./auth.service";
+  MaybeAsync,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,17 +15,15 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot):
-    MaybeAsync<GuardResult> {
-
-    return this.authService.isAuthenticated().then(async (authenticated) => {
+    state: RouterStateSnapshot
+  ): MaybeAsync<GuardResult> {
+    return this.authService.isAuthenticated().then((authenticated) => {
       if (authenticated) {
         return true;
       } else {
-        await this.router.navigate(['/']);
+        this.router.navigate(['/']);
       }
     });
   }
 }
 //nie dodałem do modułu, ponieważ nie będzie w taki sposób guard pisany!
-
